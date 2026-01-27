@@ -1,28 +1,29 @@
+import BankAccountManagement.BankAccount;
+
 package DevirationInClass;
 
 public class Person {
 
     private String firstName;
     private String lastName;
-    protected String dob; // Protected -> Child can access
+    private char middleInit;
 
     public Person() {
-
     }
 
-    public Person(String firstName, String lastName, String dob) {
+    public Person(String firstName, String lastName, char middleInit) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.dob = dob;
+        this.middleInit = middleInit;
     }
 
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
-    public String getDOB() { return dob; }
+    public char getMiddleInit() { return middleInit; }
 
     public void setFirstName(String firstname) { this.firstName = firstname; }
     public void setLastName(String lastName) { this.lastName = lastName; }
-    public void setDOB(String dob) { this.dob = dob; }
+    public void setMiddleInit(char middleInit) { this.middleInit = middleInit; }
 
     /**
      *
@@ -30,6 +31,6 @@ public class Person {
      */
     @Override
     public String toString() {
-        return String.format("%s, %s", lastName, firstName);
+        return String.format("%s, %s %c", lastName, firstName, middleInit);
     }
 }
