@@ -1,23 +1,24 @@
-package BankAccountManagement;
-
+package DevirationInClass;
 
 
 /**
  * Represents a single bank account with basic banking operations
+ * @author Vu Cong Bui
  */
 public class BankAccount {
 
     private int accountNumber;
-    private Name fullName;
+    private Customer customer;
     private float balance;
     private Date lastTransaction;
+
 
     public BankAccount() {
     }
 
-    public BankAccount(int accountNumber, Name fullName, float balance, Date lastTransaction) {
+    public BankAccount(int accountNumber, Customer customer, float balance, Date lastTransaction) {
         this.accountNumber = accountNumber;
-        this.fullName = fullName;
+        this.customer = customer;
         this.balance = balance;
         this.lastTransaction = lastTransaction;
     }
@@ -32,99 +33,88 @@ public class BankAccount {
         }
     }
 
-    public Name getName() {
-        return fullName;
-    }
+    public Customer getCustomer() { return customer; }
 
-    public void setName(Name fullName) {
-        this.fullName = fullName;
-    }
+    public void setCustomer(Customer customer) { this.customer = customer; }
 
-    public float getBalance() {
-        return balance;
-    }
+    public float getBalance() { return balance; }
 
-    public void setBalance(float balance) {
-        this.balance = balance;
-    }
+    public void setBalance(float balance) { this.balance = balance; }
 
-    public Date getLastTransaction() {
-        return lastTransaction;
-    }
+    public Date getLastTransaction() { return lastTransaction; }
 
-    public void setLastTransaction(Date lastTransaction) {
-        this.lastTransaction = lastTransaction;
-    }
+    public void setLastTransaction(Date lastTransaction) { this.lastTransaction = lastTransaction; }
 
     /**
-     *
+     * Deposit an amount into the account
      * @param amount - the float amount to be deposited
      * @param lastTransaction - the date of this transaction
-     * @return boolean value indicating if the transaction was successful or not
      */
-    public boolean deposit(float amount, Date lastTransaction) {
+    public void deposit(float amount, Date lastTransaction) {
         if (amount > 0) {
             balance += amount;
             this.lastTransaction = lastTransaction;
-            return true;
         }
-        return false;
+        else {
+            System.out.println("Deposit failed!");
+        }
     }
 
     /**
-     *
+     * Withdraw an amount into the account
      * @param amount - the float amount to be withdrawn
      * @param lastTransaction - the date of this transaction
-     * @return boolean value indicating if the transaction was successful or not
      */
-    public boolean withdraw(float amount, Date lastTransaction) {
+    public void withdraw(float amount, Date lastTransaction) {
         if (amount > 0 && amount <= balance) {
             balance -= amount;
             this.lastTransaction = lastTransaction;
-            return true;
+            System.out.println("Withdraw successfully!");
         }
-        System.out.println("Not enough fund!");
-        return false;
+        else {
+            System.out.println("Withdraw failed!");
+        }
     }
 
     /**
-     *
+     * Transfer an amount from this account to another account
      * @param amount - the float amount to be transferred
      * @param receiver - the BankAccountManagement.BankAccount of the receiver
      * @param lastTransaction - the date of this transaction
-     * @return boolean value indicating if the transaction was successful or not
      */
-    public boolean transfer(float amount, BankAccount receiver, Date lastTransaction) {
+    public void transfer(float amount, BankAccount receiver, Date lastTransaction) {
         if (amount > 0 && amount <= balance) {
             balance -= amount;
             receiver.deposit(amount, lastTransaction);
             this.lastTransaction = lastTransaction;
-            return true;
+            System.out.println("Transfer successfully!");
         }
-        return false;
+        else {
+            System.out.println("Transfer failed!");
+        }
     }
 
     /**
-     *
      * @return the full information of the account as a String block
      */
     public String toString() {
         return String.format("""
-                Account number: %d
-                Account owner: %s
+                Account #: %d
+                Customer #: %d
+                Name: %s
                 Balance: $%.1f
                 Last transaction: %s
                 -----
-                """, accountNumber, fullName.toString(),
+                """, accountNumber, customer.getCustomerID(), customer.getFullName(),
                 balance, lastTransaction.toString());
     }
 
     /**
-     * Returns the detail of the bank account in a format to be written to the test file
+     * Returns the detail of the bank account in a format to be written to the text file
      * @return all of the information separated by spaces
      */
     public String writeAsRecord() {
 
-        return String.format("%d %s %.2f %s", accountNumber, fullName.toString(), balance, lastTransaction.toString());
+        return String.format("%d %s %.2f %s", accountNumber, customer.writeAsRecord(), balance, lastTransaction.toString());
     }
 }

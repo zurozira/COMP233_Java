@@ -1,9 +1,10 @@
-package BankAccountManagement;
+package DevirationInClass;
 
 import java.util.Scanner;
 
 /**
  * Helper methods to replace repetitive actions
+ * @author Vu Cong Bui
  */
 public class CongVuMethods {
 
@@ -28,19 +29,20 @@ public class CongVuMethods {
      */
     public int loopInputInt() {
 
-        int number;
-        while (input.hasNext()) {
+        int number = 0;
+        boolean correctInput = false;
+        while (!correctInput) {
             if (input.hasNextInt()) {
                 number = input.nextInt();
                 input.nextLine();
-                return number;
+                correctInput = true;
             }
             else {
                 System.out.print("Wrong input type! Number only\n-> ");
                 input.next();
             }
         }
-        return 0;
+        return number;
     }
 
     /**
@@ -48,23 +50,28 @@ public class CongVuMethods {
      * @return the first positive float value that the user inputs
      */
     public float loopPositiveFloat() {
-        float amount;
-        while (input.hasNext()) {
+
+        float amount = 0;
+        boolean correctInput = false;
+
+        while (!correctInput) {
             if (input.hasNextFloat()) {
                 amount = input.nextFloat();
                 input.nextLine();
 
                 if (amount > 0) {
-                    return amount;
+                    correctInput = true;
                 }
-                System.out.print("Wrong input! Positive float only!\n-> ");
+                else {
+                    System.out.print("Wrong input! Positive float only!\n-> ");
+                }
             }
             else {
                 System.out.print("Wrong input type! Float only\n-> ");
                 input.next();
             }
         }
-        return 0;
+        return amount;
     }
 
     /**
@@ -72,7 +79,7 @@ public class CongVuMethods {
      * Have to be in (Year, Month, Day) order to check for leap years
      * @return new BankAccountManagement.Date instance
      */
-    public Date changeDate() {
+    public Date editDate() {
 
         Date date = new Date();
 
@@ -112,13 +119,18 @@ public class CongVuMethods {
      * Prompt user to enter and validates a new name with first name, last name and middle init
      * @return a new BankAccountManagement.Name instance
      */
-    public Name changeName() {
+    public Customer editCustomer() {
 
-        Name name = new Name();
+        Customer customer = new Customer();
 
+        int customerID;
         String firstName;
         String lastName;
         char middleInit;
+
+        System.out.print("CustomerID: ");
+        customerID = loopInputInt();
+        customer.setCustomerID(customerID);
 
         System.out.println("First name:");
         do {
@@ -128,7 +140,7 @@ public class CongVuMethods {
                 System.out.print("First name cannot be empty\n");
             }
             else {
-                name.setFirstName(firstName);
+                customer.setFirstName(firstName);
             }
         } while (firstName.isBlank());
 
@@ -140,7 +152,7 @@ public class CongVuMethods {
                 System.out.print("Last name cannot be empty\n");
             }
             else {
-                name.setLastName(lastName);
+                customer.setLastName(lastName);
             }
         } while (lastName.isBlank());
 
@@ -158,7 +170,7 @@ public class CongVuMethods {
                     System.out.print("Middle init must be a letter\n");
                 }
                 else {
-                    name.setMiddleInit(middleInit);
+                    customer.setMiddleInit(middleInit);
                     correctFormat = true;
                 }
             }
@@ -168,7 +180,7 @@ public class CongVuMethods {
 
         } while (!correctFormat);
 
-        return name;
+        return customer;
     }
 
     /**
@@ -193,7 +205,7 @@ public class CongVuMethods {
      * Prompts the user to enter a new positive balance for the account using loopPositiveFloat()
      * @return a positive float value
      */
-    public float changeBalance() {
+    public float editBalance() {
         System.out.print("Balance: ");
         return loopPositiveFloat();
     }

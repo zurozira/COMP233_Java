@@ -1,4 +1,4 @@
-package BankAccountManagement;
+package DevirationInClass;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,6 +35,7 @@ public class FileHandler {
 
                 int accNum = input.nextInt();
 
+                int cusID = input.nextInt();
                 String firstN = input.next();
                 char mInit = input.next().charAt(0);
                 String lastN = input.next();
@@ -45,14 +46,14 @@ public class FileHandler {
                 int month = input.nextInt();
                 int year = input.nextInt();
 
-                accounts[i] = new BankAccount(accNum, new Name(firstN, lastN, mInit), balance, new Date(day, month, year));
+                accounts[i] = new BankAccount(accNum, new Customer(cusID, firstN, lastN, mInit), balance, new Date(day, month, year));
             }
         }
         catch (FileNotFoundException fNFE) {
             System.out.println("ERROR: FILE NOT FOUND (CHECK FILE SOURCE)");
         }
         catch (InputMismatchException iME) {
-            System.out.println("ERROR: UNEXPECT DATA TYPE FOUND (CHECK FILE TO SEE IF DATA IS IN CORRECT ORDER");
+            System.out.println("ERROR: UNEXPECT DATA TYPE FOUND (CHECK FILE TO SEE IF DATA IS IN CORRECT ORDER)");
         }
         catch (IllegalStateException iSE) {
             System.out.println("ERROR: A METHOD HAS BEEN INVOKED AT AN ILLEGAL OR INAPPROPRIATE TIME");

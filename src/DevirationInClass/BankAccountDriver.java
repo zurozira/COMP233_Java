@@ -1,4 +1,4 @@
-package BankAccountManagement;
+package DevirationInClass;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -6,6 +6,7 @@ import java.util.Scanner;
 /**
  * Control BankAccountManagement.BankAccount management system
  * Provide menu interface to manage and operate accounts
+ * @author Vu Cong Bui
  */
 public class BankAccountDriver {
 
@@ -139,7 +140,7 @@ public class BankAccountDriver {
         System.out.print("----\nSelect account to edit\n");
 
         for (int i = 0; i < accounts.length; i++) {
-            System.out.printf("%d. %s\n", i + 1, accounts[i].getName());
+            System.out.printf("%d. %s\n", i + 1, accounts[i].getCustomer());
         }
 
         int accChoice = myMethod.loopOption(1, accounts.length);
@@ -163,17 +164,17 @@ public class BankAccountDriver {
 
                 case 1 -> {
                     System.out.print("Enter new first name\n-> ");
-                    accounts[accChoice - 1].getName().setFirstName(input.nextLine());
+                    accounts[accChoice - 1].getCustomer().setFirstName(input.nextLine());
                     System.out.println("Success!\n-----");
                 }
                 case 2 -> {
                     System.out.print("Enter new last name\n-> ");
-                    accounts[accChoice - 1].getName().setLastName(input.nextLine());
+                    accounts[accChoice - 1].getCustomer().setLastName(input.nextLine());
                     System.out.println("Success!\n-----");
                 }
                 case 3 -> {
                     System.out.print("Enter new middle initial\n-> ");
-                    accounts[accChoice - 1].getName().setMiddleInit(input.next().charAt(0));
+                    accounts[accChoice - 1].getCustomer().setMiddleInit(input.next().charAt(0));
                     System.out.println("Success!\n-----");
                 }
                 case 4 -> exitInfoEdit = true;
@@ -207,13 +208,11 @@ public class BankAccountDriver {
                     float depositAmount = myMethod.loopPositiveFloat();
 
                     System.out.print("Transaction date: \n");
-                    Date newDate = myMethod.changeDate();
+                    Date newDate = myMethod.editDate();
 
-                    if (account.deposit(depositAmount, newDate)) {
-                        System.out.printf("Successfully deposit $%.1f into account of %s!\n", depositAmount, account.getName());
-                    } else {
-                        System.out.print("Deposit failed!\n");
-                    }
+                    account.deposit(depositAmount, newDate);
+
+                    System.out.printf("Successfully deposit $%.1f into account of %s!\n", depositAmount, account.getCustomer());
                 }
             }
 
@@ -248,13 +247,9 @@ public class BankAccountDriver {
                     float withdrawAmount = myMethod.loopPositiveFloat();
 
                     System.out.print("Transaction date: \n");
-                    Date newDate = myMethod.changeDate();
+                    Date newDate = myMethod.editDate();
 
-                    if (account.withdraw(withdrawAmount, newDate)) {
-                        System.out.print("Successfully withdraw $%.1f!\n");
-                    } else {
-                        System.out.print("Withdraw failed!\n");
-                    }
+                    account.withdraw(withdrawAmount, newDate);
                 }
             }
 
@@ -297,15 +292,10 @@ public class BankAccountDriver {
                             System.out.print("Transfer amount: ");
                             float transferAmount = myMethod.loopPositiveFloat();
 
-                            System.out.print("Transaction date:\n");
-                            Date newDate = myMethod.changeDate();
+                            System.out.print("Transaction date: \n");
+                            Date newDate = myMethod.editDate();
 
-                            if (acc1.transfer(transferAmount, acc2, newDate)) {
-                                System.out.printf("Successfully transfer $%.1f from %s to %s!\n",
-                                        transferAmount, acc1.getName(), acc2.getName());
-                            } else {
-                                System.out.print("Transfer failed!\n");
-                            }
+                            acc1.transfer(transferAmount, acc2, newDate);
                         }
                     }
                 }
@@ -341,13 +331,13 @@ public class BankAccountDriver {
             }
         } while (duplicate);
 
-        Name newAccountName = myMethod.changeName();
+        Customer newCustomer = myMethod.editCustomer();
 
-        float newBalance = myMethod.changeBalance();
+        float newBalance = myMethod.editBalance();
 
-        Date newDate = myMethod.changeDate();
+        Date newDate = myMethod.editDate();
 
-        BankAccount newAccount = new BankAccount(newAccountNumber, newAccountName, newBalance, newDate);
+        BankAccount newAccount = new BankAccount(newAccountNumber, newCustomer, newBalance, newDate);
 
         BankAccount[] tempAccounts = Arrays.copyOf(accounts, accounts.length + 1);
 

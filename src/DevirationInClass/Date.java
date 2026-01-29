@@ -1,7 +1,8 @@
-package BankAccountManagement;
+package DevirationInClass;
 
 /**
  * Represents a calendar date with day, month, and year components
+ * @author Vu Cong Bui
  */
 public class Date {
 

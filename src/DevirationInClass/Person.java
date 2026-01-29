@@ -1,7 +1,9 @@
-import BankAccountManagement.BankAccount;
-
 package DevirationInClass;
 
+/**
+ * Represent a person with full name components (First name, Last name, Middle initial)
+ * @author Vu Cong Bui
+ */
 public class Person {
 
     private String firstName;
@@ -9,6 +11,7 @@ public class Person {
     private char middleInit;
 
     public Person() {
+
     }
 
     public Person(String firstName, String lastName, char middleInit) {
@@ -27,7 +30,7 @@ public class Person {
 
     /**
      *
-     * @return
+     * @return person's full name as formatted
      */
     @Override
     public String toString() {

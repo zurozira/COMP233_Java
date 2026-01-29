@@ -1,5 +1,9 @@
 package DevirationInClass;
 
+/**
+ * Customer class inherits Person class and add customer ID component
+ * @author Vu Cong Bui
+ */
 public class Customer extends Person {
 
     private int customerID;
@@ -10,6 +14,7 @@ public class Customer extends Person {
     public Customer(int customerID, String firstName, String lastName, char middleInit) {
 
         super(firstName, lastName, middleInit);
+
         this.customerID = customerID;
     }
 
@@ -19,15 +24,16 @@ public class Customer extends Person {
 
     public String writeAsRecord() {
 
-        return
+        return String.format("%d %s %c %s", customerID, getFirstName(), getMiddleInit(), getLastName());
     }
 
-    @Override
     public String toString() {
 
-        return String.format("""
-                ID: %d
-                Name: %s
-                """, customerID, super.toString());
+        return String.format("%d %s", customerID, super.toString());
+    }
+
+    public String getFullName() {
+
+        return super.toString();
     }
 }
