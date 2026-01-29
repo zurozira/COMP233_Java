@@ -69,6 +69,7 @@ public class BankAccount {
         if (amount > 0 && amount <= balance) {
             balance -= amount;
             this.lastTransaction = lastTransaction;
+            System.out.println("Withdraw successfully!");
         }
         else {
             System.out.println("Withdraw failed!");
@@ -86,6 +87,7 @@ public class BankAccount {
             balance -= amount;
             receiver.deposit(amount, lastTransaction);
             this.lastTransaction = lastTransaction;
+            System.out.println("Transfer successfully!");
         }
         else {
             System.out.println("Transfer failed!");
