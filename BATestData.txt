@@ -6,4 +6,3 @@
 1005 5 Amy B Santiago 36000.40 9 8 2019
 1006 6 Jonas M Kahnwald 1100.21 10 9 2021
 1007 7 Pedro B Pascal 500.97 12 12 2022
-

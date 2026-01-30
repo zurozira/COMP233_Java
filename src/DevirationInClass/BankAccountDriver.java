@@ -140,7 +140,7 @@ public class BankAccountDriver {
         System.out.print("----\nSelect account to edit\n");
 
         for (int i = 0; i < accounts.length; i++) {
-            System.out.printf("%d. %s\n", i + 1, accounts[i].getCustomer());
+            System.out.printf("%d. %s\n", i + 1, accounts[i].getCustomer().getFullName());
         }
 
         int accChoice = myMethod.loopOption(1, accounts.length);
@@ -152,32 +152,43 @@ public class BankAccountDriver {
 
             System.out.print("""
                     Edit information
-                    1. First Name
-                    2. Last Name
-                    3. Middle Initial
-                    4. Cancel
+                    1. CustomerID
+                    2. First Name
+                    3. Last Name
+                    4. Middle Initial
+                    5. Cancel
                     """);
 
-            editChoice = myMethod.loopOption(1, 4);
+            editChoice = myMethod.loopOption(1, 5);
 
             switch (editChoice) {
 
                 case 1 -> {
-                    System.out.print("Enter new first name\n-> ");
-                    accounts[accChoice - 1].getCustomer().setFirstName(input.nextLine());
+                    System.out.print("Enter new customer ID: ");
+                    accounts[accChoice - 1].getCustomer().setCustomerID(input.nextInt());
+                    fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
+
                 case 2 -> {
-                    System.out.print("Enter new last name\n-> ");
-                    accounts[accChoice - 1].getCustomer().setLastName(input.nextLine());
+                    System.out.print("Enter new first name\n-> ");
+                    accounts[accChoice - 1].getCustomer().setFirstName(input.nextLine());
+                    fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
                 case 3 -> {
-                    System.out.print("Enter new middle initial\n-> ");
-                    accounts[accChoice - 1].getCustomer().setMiddleInit(input.next().charAt(0));
+                    System.out.print("Enter new last name\n-> ");
+                    accounts[accChoice - 1].getCustomer().setLastName(input.nextLine());
+                    fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
-                case 4 -> exitInfoEdit = true;
+                case 4 -> {
+                    System.out.print("Enter new middle initial\n-> ");
+                    accounts[accChoice - 1].getCustomer().setMiddleInit(input.next().charAt(0));
+                    fileHandler.save(accounts);
+                    System.out.println("Success!\n-----");
+                }
+                case 5 -> exitInfoEdit = true;
 
             }
         }
