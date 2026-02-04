@@ -13,7 +13,7 @@ public class BankAccountDriver {
     public static Scanner input;
     public static BankAccount[] accounts;
     public static CongVuMethods myMethod;
-    public static FileHandler fileHandler;
+    //public static FileHandler fileHandler;
 
     public static Customer[] customers;
 
@@ -24,7 +24,7 @@ public class BankAccountDriver {
 
         input = new Scanner(System.in);
         myMethod = new CongVuMethods();
-        fileHandler = new FileHandler();
+        //fileHandler = new FileHandler();
         getData();
 
         boolean exit = false;
@@ -34,7 +34,7 @@ public class BankAccountDriver {
 
             choice = showMenu();
 
-            if (choice == 9) {
+            if (choice == 10) {
                 exit = true;
             } else {
                 executeChoices(choice);
@@ -82,20 +82,21 @@ public class BankAccountDriver {
                 | 1. Display all accounts                           |
                 | 2. Display info for account by account number     |
                 | 3. Display all customers                          |
+                | 4. Display all accounts for a customer            |
                 +---------------------------------------------------+
-                | 4. Edit information                               |
+                | 5. Edit information                               |
                 +---------------------------------------------------+
-                | 5. Deposit                                        |
-                | 6. Withdraw                                       |
-                | 7. Transfer                                       |
+                | 6. Deposit                                        |
+                | 7. Withdraw                                       |
+                | 8. Transfer                                       |
                 +---------------------------------------------------+
-                | 8. Create a new account                           |
+                | 9. Create a new account                           |
                 +---------------------------------------------------+
-                | 9. Exit                                           |
+                | 10. Exit                                          |
                 +---------------------------------------------------+
                 """);
 
-        return myMethod.loopOption(1, 9);
+        return myMethod.loopOption(1, 10);
     }
 
     /**
@@ -109,12 +110,13 @@ public class BankAccountDriver {
             case 2 -> menuOption2();
 
             case 3 -> menuOption3();
-
             case 4 -> menuOption4();
+
             case 5 -> menuOption5();
             case 6 -> menuOption6();
             case 7 -> menuOption7();
             case 8 -> menuOption8();
+            case 9 -> menuOption9();
         }
     }
 
@@ -210,11 +212,36 @@ public class BankAccountDriver {
         myMethod.waitForInput();
     }
 
+    public void menuOption4() {
+
+        System.out.println("ALL ACCOUNTS OF A CUSTOMER\n-----");
+
+        for (Customer customer : customers) {
+            System.out.printf("%s # %d\n", customer.getFullName(), customer.getCustomerID());
+        }
+
+        System.out.print("Enter customer number: ");
+        int customerNumber = myMethod.loopInputInt();
+
+        for (Customer customer : customers) {
+            if (customer.getCustomerID() == customerNumber) {
+
+                for (BankAccount account : accounts) {
+
+                    if (account.getCustomer().getCustomerID() == customerNumber) {
+                        System.out.printf("");
+                    }
+                }
+            }
+        }
+
+    }
+
     /**
      * Prompt user for an account number
-     * Then show options to edit user basic information (BankAccountManagement.Name)
+     * Then show options to edit user basic information
      */
-    public void menuOption4() {
+    public void menuOption5() {
 
         System.out.print("----\nSelect account to edit\n");
 
@@ -245,41 +272,41 @@ public class BankAccountDriver {
                 case 1 -> {
                     System.out.print("Enter new customer ID: ");
                     accounts[accChoice - 1].getCustomer().setCustomerID(input.nextInt());
-                    fileHandler.save(accounts);
+                    //fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
 
                 case 2 -> {
                     System.out.print("Enter new first name\n-> ");
                     accounts[accChoice - 1].getCustomer().setFirstName(input.nextLine());
-                    fileHandler.save(accounts);
+                    //fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
                 case 3 -> {
                     System.out.print("Enter new last name\n-> ");
                     accounts[accChoice - 1].getCustomer().setLastName(input.nextLine());
-                    fileHandler.save(accounts);
+                    //fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
                 case 4 -> {
                     System.out.print("Enter new middle initial\n-> ");
                     accounts[accChoice - 1].getCustomer().setMiddleInit(input.next().charAt(0));
-                    fileHandler.save(accounts);
+                    //fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
                 case 5 -> exitInfoEdit = true;
 
             }
         }
-        fileHandler.save(accounts);
+        //fileHandler.save(accounts);
         myMethod.waitForInput();
     }
 
     /**
      * Prompt user for an account number and an amount
-     * Then deposit the amount into the user's account using BankAccountManagement.BankAccount.deposit()
+     * Then deposit the amount into the user's account
      */
-    public void menuOption5() {
+    public void menuOption6() {
 
         System.out.print("Input account number: ");
         int accountNumber;
@@ -310,15 +337,15 @@ public class BankAccountDriver {
                 System.out.print("Incorrect account number!\n-> ");
             }
         }
-        fileHandler.save(accounts);
+        //fileHandler.save(accounts);
         myMethod.waitForInput();
     }
 
     /**
      * Prompt user for an account number and an amount
-     * Then withdraw the amount from the user's account using BankAccountManagement.BankAccount.withdraw()
+     * Then withdraw the amount from the user's account
      */
-    public void menuOption6() {
+    public void menuOption7() {
 
         System.out.print("Input account number: ");
         int accountNumber;
@@ -347,15 +374,15 @@ public class BankAccountDriver {
                 System.out.print("Incorrect account number!\n-> ");
             }
         }
-        fileHandler.save(accounts);
+        //fileHandler.save(accounts);
         myMethod.waitForInput();
     }
 
     /**
      * Prompt user for a sender and a receiver account numbers
-     * Then transfer the amount from the user's account to another account using BankAccountManagement.BankAccount.transfer()
+     * Then transfer the amount from the user's account to another account
      */
-    public void menuOption7() {
+    public void menuOption8() {
 
         int sender;
         int receiver;
@@ -395,16 +422,16 @@ public class BankAccountDriver {
                 System.out.print("Incorrect account number!\n-> ");
             }
         }
-        fileHandler.save(accounts);
+        //fileHandler.save(accounts);
         myMethod.waitForInput();
     }
 
     /**
-     * Prompt user for inputs to create a new BankAccountManagement.BankAccount instance
+     * Prompt user for inputs to create a new instance
      * Expand the current array and add the new account to the array
      * Save the new accounts data to the database
      */
-    public void menuOption8() {
+    public void menuOption9() {
         System.out.println("CREATE A NEW ACCOUNT");
 
         int newAccountNumber;
@@ -427,15 +454,15 @@ public class BankAccountDriver {
 
         Date newDate = myMethod.editDate();
 
-        BankAccount newAccount = new BankAccount(newAccountNumber, newCustomer, newBalance, newDate);
+        //BankAccount newAccount = new BankAccount(newAccountNumber, newCustomer, newBalance, newDate);
 
         BankAccount[] tempAccounts = Arrays.copyOf(accounts, accounts.length + 1);
 
-        tempAccounts[tempAccounts.length - 1] = newAccount;
+        //tempAccounts[tempAccounts.length - 1] = newAccount;
 
         accounts = tempAccounts;
 
-        fileHandler.save(accounts);
+        //fileHandler.save(accounts);
 
         System.out.println("Success! New account was added to the database");
         myMethod.waitForInput();

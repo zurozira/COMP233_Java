@@ -46,7 +46,7 @@ public class FileHandler {
                 int month = input.nextInt();
                 int year = input.nextInt();
 
-                accounts[i] = new BankAccount(accNum, new Customer(cusID, firstN, lastN, mInit), balance, new Date(day, month, year));
+                //accounts[i] = new BankAccount(accNum, new Customer(cusID, firstN, lastN, mInit), balance, new Date(day, month, year));
             }
         }
         catch (FileNotFoundException fNFE) {
