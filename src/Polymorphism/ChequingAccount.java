@@ -1,12 +1,12 @@
 package Polymorphism;
 
-public class CheckingAccount extends BankAccount {
+public class ChequingAccount extends BankAccount {
 
     private float overDraftLimit;
 
-    public CheckingAccount() {}
+    public ChequingAccount() {}
 
-    public CheckingAccount(int accountNumber, Customer customer, float balance,
+    public ChequingAccount(int accountNumber, Customer customer, float balance,
                            Date lastTransaction, float overDraftLimit)
     {
         super(accountNumber, customer, balance, lastTransaction);

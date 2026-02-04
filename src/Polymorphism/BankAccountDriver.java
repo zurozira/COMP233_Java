@@ -34,7 +34,7 @@ public class BankAccountDriver {
 
             choice = showMenu();
 
-            if (choice == 8) {
+            if (choice == 9) {
                 exit = true;
             } else {
                 executeChoices(choice);
@@ -47,7 +47,26 @@ public class BankAccountDriver {
      */
     public void getData() {
 
-        accounts = FileHandler.getData("BATestData.txt");
+        customers = new Customer[10];
+        customers[0] = new Customer(005, "Danny", "Vito", 'D');
+        customers[1] = new Customer(004, "Amy", "Santiago", 'B');
+        customers[2] = new Customer(003, "Marjorie", "Simpson", 'J');
+        customers[3] = new Customer(001, "Tetsuo", "Shima", 'A');
+        customers[4] = new Customer(002, "Jonas", "Khanwald", 'M');
+        customers[5] = new Customer(006, "Pedro", "Pascal", 'B');
+        customers[6] = new Customer(007, "Kaitlyn", "Olsen", 'D');
+
+        accounts = new BankAccount[10];
+        accounts[0] = new ChequingAccount(1005, customers[2], 76.57f, new Date(2019, 11, 5), 10.50f);
+        accounts[1] = new SavingsAccount(1001, customers[0], 6500.50f, new Date(2023, 9, 7), 10f);
+        accounts[2] = new SavingsAccount(1003, customers[2], 5533.57f, new Date(2019, 12, 6), 1.0f);
+        accounts[3] = new SavingsAccount(1006, customers[4], 0.60f, new Date(2020, 7, 7), 10.0f);
+        accounts[4] = new ChequingAccount(1002,customers[1], 2576.57f, new Date(2022, 9, 8), 10.50f);
+        accounts[5] = new ChequingAccount(1008, customers[0], 200.10f, new Date(2023, 12, 8), 10.0f);
+        accounts[6] = new SavingsAccount(1009, customers[2], 33.21f, new Date(2021, 5, 6), 1.0f);
+        accounts[7] = new ChequingAccount(1010, customers[5], 500000.97f, new Date(2020, 11, 1 ), 100.0f);
+        accounts[8] = new SavingsAccount(1004, customers[3], 3000.60f, new Date(2017, 10, 3), 10.0f);
+        accounts[9] = new ChequingAccount(1007, customers[6], 9000.50f, new Date(2022, 11, 3), 50f);
     }
 
     /**
@@ -62,19 +81,21 @@ public class BankAccountDriver {
                 +---------------------------------------------------+
                 | 1. Display all accounts                           |
                 | 2. Display info for account by account number     |
-                | 3. Edit information                               |
+                | 3. Display all customers                          |
                 +---------------------------------------------------+
-                | 4. Deposit                                        |
-                | 5. Withdraw                                       |
-                | 6. Transfer                                       |
+                | 4. Edit information                               |
                 +---------------------------------------------------+
-                | 7. Create a new account                           |
+                | 5. Deposit                                        |
+                | 6. Withdraw                                       |
+                | 7. Transfer                                       |
                 +---------------------------------------------------+
-                | 8. Exit                                           |
+                | 8. Create a new account                           |
+                +---------------------------------------------------+
+                | 9. Exit                                           |
                 +---------------------------------------------------+
                 """);
 
-        return myMethod.loopOption(1, 8);
+        return myMethod.loopOption(1, 9);
     }
 
     /**
@@ -86,11 +107,14 @@ public class BankAccountDriver {
         switch (menuChoice) {
             case 1 -> menuOption1();
             case 2 -> menuOption2();
+
             case 3 -> menuOption3();
+
             case 4 -> menuOption4();
             case 5 -> menuOption5();
             case 6 -> menuOption6();
             case 7 -> menuOption7();
+            case 8 -> menuOption8();
         }
     }
 
@@ -100,10 +124,52 @@ public class BankAccountDriver {
     public void menuOption1() {
 
         System.out.print("ACCOUNTS LIST\n-----\n");
+        System.out.println("Select account type");
 
-        for (BankAccount account : accounts) {
-            System.out.print(account);
+        System.out.print("""
+                1. Chequing Accounts
+                2. Savings Accounts
+                3. All Accounts
+                -----
+                """);
+
+        int accountType = myMethod.loopOption(1, 3);
+
+        switch (accountType) {
+
+            case 1 -> {
+                for (BankAccount account : accounts) {
+                    if (account instanceof ChequingAccount) {
+                        System.out.printf("Chequing#%d: %d %s\n", account.getAccountNumber(),
+                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName());
+                    }
+                }
+            }
+
+            case 2 -> {
+                for (BankAccount account : accounts) {
+                    if (account instanceof SavingsAccount) {
+                        System.out.printf("Savings#%d: %d %s\n", account.getAccountNumber(),
+                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName());
+                    }
+                }
+            }
+
+            case 3 -> {
+                for (BankAccount account : accounts) {
+                    if (account instanceof SavingsAccount) {
+                        System.out.printf("Savings#%d: %d %s\n", account.getAccountNumber(),
+                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName());
+                    }
+                    else {
+                        System.out.printf("Chequing#%d: %d %s\n", account.getAccountNumber(),
+                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName());
+                    }
+                }
+            }
         }
+
+        System.out.printf("Sum of all balances: ");
 
         myMethod.waitForInput();
     }
@@ -133,11 +199,22 @@ public class BankAccountDriver {
         myMethod.waitForInput();
     }
 
+    public void menuOption3() {
+
+        System.out.println("ALL CUSTOMERS\n-----");
+
+        for (Customer customer : customers) {
+            System.out.printf("%d: %s\n", customer.getCustomerID(), customer.getFullName());
+        }
+
+        myMethod.waitForInput();
+    }
+
     /**
      * Prompt user for an account number
      * Then show options to edit user basic information (BankAccountManagement.Name)
      */
-    public void menuOption3() {
+    public void menuOption4() {
 
         System.out.print("----\nSelect account to edit\n");
 
@@ -202,7 +279,7 @@ public class BankAccountDriver {
      * Prompt user for an account number and an amount
      * Then deposit the amount into the user's account using BankAccountManagement.BankAccount.deposit()
      */
-    public void menuOption4() {
+    public void menuOption5() {
 
         System.out.print("Input account number: ");
         int accountNumber;
@@ -241,7 +318,7 @@ public class BankAccountDriver {
      * Prompt user for an account number and an amount
      * Then withdraw the amount from the user's account using BankAccountManagement.BankAccount.withdraw()
      */
-    public void menuOption5() {
+    public void menuOption6() {
 
         System.out.print("Input account number: ");
         int accountNumber;
@@ -278,7 +355,7 @@ public class BankAccountDriver {
      * Prompt user for a sender and a receiver account numbers
      * Then transfer the amount from the user's account to another account using BankAccountManagement.BankAccount.transfer()
      */
-    public void menuOption6() {
+    public void menuOption7() {
 
         int sender;
         int receiver;
@@ -327,7 +404,7 @@ public class BankAccountDriver {
      * Expand the current array and add the new account to the array
      * Save the new accounts data to the database
      */
-    public void menuOption7() {
+    public void menuOption8() {
         System.out.println("CREATE A NEW ACCOUNT");
 
         int newAccountNumber;

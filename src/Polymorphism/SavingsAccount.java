@@ -1,13 +1,13 @@
 package Polymorphism;
 
-public class SavingAccount extends BankAccount{
+public class SavingsAccount extends BankAccount{
 
     private float interestRate;
 
-    public SavingAccount() {}
+    public SavingsAccount() {}
 
-    public SavingAccount(int accountNumber, Customer customer, float balance,
-                         Date lastTransaction, float interestRate)
+    public SavingsAccount(int accountNumber, Customer customer, float balance,
+                          Date lastTransaction, float interestRate)
     {
         super(accountNumber, customer, balance, lastTransaction);
         this.interestRate = interestRate;
@@ -18,7 +18,8 @@ public class SavingAccount extends BankAccount{
     public void setInterestRate(float interestRate) { this.interestRate = interestRate; }
 
     public void accruesInterest(int months) {
-        float balance = getBalance() *
+
+        setBalance((float) (getBalance() * Math.pow(1 + interestRate, months)));
     }
 
     @Override
