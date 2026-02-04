@@ -19,7 +19,7 @@ public class SavingsAccount extends BankAccount{
 
     public void accruesInterest(int months) {
 
-        setBalance((float) (getBalance() * Math.pow(1 + interestRate, months)));
+        setBalance((float) (getBalance() * Math.pow(1 + interestRate/100, months)));
     }
 
     @Override
@@ -30,10 +30,6 @@ public class SavingsAccount extends BankAccount{
             setBalance(getBalance() - amount);
             setLastTransaction(lastTransaction);
 
-            System.out.println("Withdraw successfully!");
-        }
-        else {
-            System.out.println("Withdraw failed!");
         }
     }
 }

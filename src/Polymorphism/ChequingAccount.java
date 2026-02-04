@@ -20,15 +20,19 @@ public class ChequingAccount extends BankAccount {
     @Override
     public void withdraw(float amount, Date lastTransaction) {
 
-        if (amount > 0 && amount <= getBalance()) {
+        if (amount > 0 && amount <= getBalance() + overDraftLimit) {
 
-            setBalance(getBalance() - amount);
+            if (amount <= getBalance()) {
+                setBalance(getBalance() - amount);
+            }
+            else {
+                float over = amount - getBalance();
+                setBalance(0);
+                overDraftLimit -= over;
+            }
+
             setLastTransaction(lastTransaction);
 
-            System.out.println("Withdraw successfully!");
-        }
-        else {
-            System.out.println("Withdraw failed!");
         }
     }
 }

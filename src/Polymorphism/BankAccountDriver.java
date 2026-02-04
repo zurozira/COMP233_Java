@@ -34,7 +34,7 @@ public class BankAccountDriver {
 
             choice = showMenu();
 
-            if (choice == 10) {
+            if (choice == 11) {
                 exit = true;
             } else {
                 executeChoices(choice);
@@ -47,7 +47,7 @@ public class BankAccountDriver {
      */
     public void getData() {
 
-        customers = new Customer[10];
+        customers = new Customer[7];
         customers[0] = new Customer(005, "Danny", "Vito", 'D');
         customers[1] = new Customer(004, "Amy", "Santiago", 'B');
         customers[2] = new Customer(003, "Marjorie", "Simpson", 'J');
@@ -63,7 +63,7 @@ public class BankAccountDriver {
         accounts[3] = new SavingsAccount(1006, customers[4], 0.60f, new Date(2020, 7, 7), 10.0f);
         accounts[4] = new ChequingAccount(1002,customers[1], 2576.57f, new Date(2022, 9, 8), 10.50f);
         accounts[5] = new ChequingAccount(1008, customers[0], 200.10f, new Date(2023, 12, 8), 10.0f);
-        accounts[6] = new SavingsAccount(1009, customers[2], 33.21f, new Date(2021, 5, 6), 1.0f);
+        accounts[6] = new SavingsAccount(1009, customers[1], 33.21f, new Date(2021, 5, 6), 1.0f);
         accounts[7] = new ChequingAccount(1010, customers[5], 500000.97f, new Date(2020, 11, 1 ), 100.0f);
         accounts[8] = new SavingsAccount(1004, customers[3], 3000.60f, new Date(2017, 10, 3), 10.0f);
         accounts[9] = new ChequingAccount(1007, customers[6], 9000.50f, new Date(2022, 11, 3), 50f);
@@ -92,11 +92,13 @@ public class BankAccountDriver {
                 +---------------------------------------------------+
                 | 9. Create a new account                           |
                 +---------------------------------------------------+
-                | 10. Exit                                          |
+                | 10. Calculate interest                            |
+                +---------------------------------------------------+
+                | 11. Exit                                          |
                 +---------------------------------------------------+
                 """);
 
-        return myMethod.loopOption(1, 10);
+        return myMethod.loopOption(1, 11);
     }
 
     /**
@@ -117,6 +119,8 @@ public class BankAccountDriver {
             case 7 -> menuOption7();
             case 8 -> menuOption8();
             case 9 -> menuOption9();
+
+            case 10 -> menuOption10();
         }
     }
 
@@ -137,13 +141,32 @@ public class BankAccountDriver {
 
         int accountType = myMethod.loopOption(1, 3);
 
+        float sum = 0;
+
+        for (BankAccount account : accounts) {
+
+            switch (accountType) {
+
+                case 1 -> {
+                    System.out.print("Chequing");
+                }
+
+                case 2 -> {
+                    System.out.print("Saving");
+                }
+            }
+
+        }
+
         switch (accountType) {
 
             case 1 -> {
                 for (BankAccount account : accounts) {
                     if (account instanceof ChequingAccount) {
-                        System.out.printf("Chequing#%d: %d %s\n", account.getAccountNumber(),
-                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName());
+                        System.out.printf("Chequing#%d: #%d %s $%.2f\n", account.getAccountNumber(),
+                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
+
+                        sum += account.getBalance();
                     }
                 }
             }
@@ -151,8 +174,10 @@ public class BankAccountDriver {
             case 2 -> {
                 for (BankAccount account : accounts) {
                     if (account instanceof SavingsAccount) {
-                        System.out.printf("Savings#%d: %d %s\n", account.getAccountNumber(),
-                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName());
+                        System.out.printf("Savings#%d : #%d %s $%.2f\n", account.getAccountNumber(),
+                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
+
+                        sum += account.getBalance();
                     }
                 }
             }
@@ -160,18 +185,22 @@ public class BankAccountDriver {
             case 3 -> {
                 for (BankAccount account : accounts) {
                     if (account instanceof SavingsAccount) {
-                        System.out.printf("Savings#%d: %d %s\n", account.getAccountNumber(),
-                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName());
+                        System.out.printf("Savings#%d : #%d %s $%.2f\n", account.getAccountNumber(),
+                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
+
+                        sum += account.getBalance();
                     }
                     else {
-                        System.out.printf("Chequing#%d: %d %s\n", account.getAccountNumber(),
-                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName());
+                        System.out.printf("Chequing#%d: #%d %s $%.2f\n", account.getAccountNumber(),
+                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
+
+                        sum += account.getBalance();
                     }
                 }
             }
         }
 
-        System.out.printf("Sum of all balances: ");
+        System.out.printf("-----\nSum of all balances: $%.2f\n", sum);
 
         myMethod.waitForInput();
     }
@@ -206,9 +235,10 @@ public class BankAccountDriver {
         System.out.println("ALL CUSTOMERS\n-----");
 
         for (Customer customer : customers) {
-            System.out.printf("%d: %s\n", customer.getCustomerID(), customer.getFullName());
+            System.out.printf("#%d: %s\n", customer.getCustomerID(), customer.getFullName());
         }
 
+        System.out.println("-----");
         myMethod.waitForInput();
     }
 
@@ -217,23 +247,29 @@ public class BankAccountDriver {
         System.out.println("ALL ACCOUNTS OF A CUSTOMER\n-----");
 
         for (Customer customer : customers) {
-            System.out.printf("%s # %d\n", customer.getFullName(), customer.getCustomerID());
+            System.out.printf("%s #%d\n", customer.getFullName(), customer.getCustomerID());
         }
+        System.out.println("-----");
 
         System.out.print("Enter customer number: ");
         int customerNumber = myMethod.loopInputInt();
 
-        for (Customer customer : customers) {
-            if (customer.getCustomerID() == customerNumber) {
+        for (BankAccount account : accounts) {
 
-                for (BankAccount account : accounts) {
+            if (account.getCustomer().getCustomerID() == customerNumber && account instanceof ChequingAccount) {
 
-                    if (account.getCustomer().getCustomerID() == customerNumber) {
-                        System.out.printf("");
-                    }
-                }
+                System.out.printf("Chequing#%d: #%d %s $%.2f\n", account.getAccountNumber(),
+                        account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
+            }
+
+            else if (account.getCustomer().getCustomerID() == customerNumber && account instanceof SavingsAccount) {
+
+                System.out.printf("Savings#%d : #%d %s $%.2f\n", account.getAccountNumber(),
+                        account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
             }
         }
+
+        myMethod.waitForInput();
 
     }
 
@@ -245,8 +281,8 @@ public class BankAccountDriver {
 
         System.out.print("----\nSelect account to edit\n");
 
-        for (int i = 0; i < accounts.length; i++) {
-            System.out.printf("%d. %s\n", i + 1, accounts[i].getCustomer().getFullName());
+        for (int i = 0; i < customers.length; i++) {
+            System.out.printf("%d. %s #%d\n", i + 1, customers[i].getFullName(), customers[i].getCustomerID());
         }
 
         int accChoice = myMethod.loopOption(1, accounts.length);
@@ -271,26 +307,26 @@ public class BankAccountDriver {
 
                 case 1 -> {
                     System.out.print("Enter new customer ID: ");
-                    accounts[accChoice - 1].getCustomer().setCustomerID(input.nextInt());
+                    customers[accChoice - 1].setCustomerID(input.nextInt());
                     //fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
 
                 case 2 -> {
                     System.out.print("Enter new first name\n-> ");
-                    accounts[accChoice - 1].getCustomer().setFirstName(input.nextLine());
+                    customers[accChoice - 1].setFirstName(input.nextLine());
                     //fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
                 case 3 -> {
                     System.out.print("Enter new last name\n-> ");
-                    accounts[accChoice - 1].getCustomer().setLastName(input.nextLine());
+                    customers[accChoice - 1].setLastName(input.nextLine());
                     //fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
                 case 4 -> {
                     System.out.print("Enter new middle initial\n-> ");
-                    accounts[accChoice - 1].getCustomer().setMiddleInit(input.next().charAt(0));
+                    customers[accChoice - 1].setMiddleInit(input.next().charAt(0));
                     //fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
@@ -347,30 +383,61 @@ public class BankAccountDriver {
      */
     public void menuOption7() {
 
-        System.out.print("Input account number: ");
-        int accountNumber;
-        boolean correctID = false;
+        System.out.println("WITHDRAW\n-----");
 
-        while (!correctID) {
+        System.out.print("Enter account number: ");
+        int accountNumber;
+        boolean correctAccNum = false;
+
+        while (!correctAccNum) {
 
             accountNumber = myMethod.loopInputInt();
 
             for (BankAccount account : accounts) {
                 if (account.getAccountNumber() == accountNumber) {
 
-                    correctID = true;
+                    correctAccNum = true;
+
+                    System.out.printf("Current balance: $%.2f\n", account.getBalance());
+
+                    if (account instanceof ChequingAccount cheqAcc) {
+                        System.out.printf("Overdraft limit: %.2f\n", cheqAcc.getOverDraftLimit());
+                    }
 
                     System.out.print("Withdraw amount: ");
                     float withdrawAmount = myMethod.loopPositiveFloat();
 
-                    System.out.print("Transaction date: \n");
-                    Date newDate = myMethod.editDate();
+                    if (account instanceof ChequingAccount cheqAcc &&
+                            withdrawAmount <= cheqAcc.getBalance() + cheqAcc.getOverDraftLimit())
+                    {
+                        System.out.print("Transaction date: \n");
+                        Date newDate = myMethod.editDate();
+                        cheqAcc.withdraw(withdrawAmount, newDate);
+                        System.out.printf("""
+                                Successfully withdraw $%.2f
+                                New balance: $%.2f
+                                """, withdrawAmount, account.getBalance());
+                    }
 
-                    account.withdraw(withdrawAmount, newDate);
+                    else if (account instanceof SavingsAccount savAcc &&
+                                withdrawAmount <= savAcc.getBalance())
+                    {
+                        System.out.print("Transaction date: \n");
+                        Date newDate = myMethod.editDate();
+                        savAcc.withdraw(withdrawAmount, newDate);
+                        System.out.printf("""
+                                Successfully withdraw $%.2f
+                                New balance: $%.2f
+                                """, withdrawAmount, account.getBalance());
+                    }
+
+                    else {
+                        System.out.println("Not enough fund!");
+                    }
                 }
             }
 
-            if (!correctID) {
+            if (!correctAccNum) {
                 System.out.print("Incorrect account number!\n-> ");
             }
         }
@@ -454,18 +521,53 @@ public class BankAccountDriver {
 
         Date newDate = myMethod.editDate();
 
-        //BankAccount newAccount = new BankAccount(newAccountNumber, newCustomer, newBalance, newDate);
+        System.out.print("""
+                Select account type:
+                1. Saving
+                2. Chequing
+                """);
+        int accountType = myMethod.loopOption(1, 2);
+
+        BankAccount newAccount;
+
+        if (accountType == 1) {
+            float interestRate = myMethod.loopPositiveFloat();
+            newAccount = new SavingsAccount(newAccountNumber, newCustomer, newBalance, newDate, interestRate);
+        }
+        else {
+            float overdraftLimit = myMethod.loopPositiveFloat();
+            newAccount = new ChequingAccount(newAccountNumber, newCustomer, newBalance, newDate, overdraftLimit);
+        }
 
         BankAccount[] tempAccounts = Arrays.copyOf(accounts, accounts.length + 1);
 
-        //tempAccounts[tempAccounts.length - 1] = newAccount;
+        tempAccounts[tempAccounts.length - 1] = newAccount;
 
         accounts = tempAccounts;
 
-        //fileHandler.save(accounts);
-
         System.out.println("Success! New account was added to the database");
         myMethod.waitForInput();
+    }
+
+    public void menuOption10() {
+        System.out.println("CALCULATE INTEREST\n-----");
+        System.out.print("Enter a customer number: ");
+        int accNumber = myMethod.loopInputInt();
+
+        int months;
+        for (BankAccount account : accounts) {
+            if (accNumber == account.getAccountNumber() && account instanceof SavingsAccount savingsAcc) {
+                System.out.print("Enter number of months: ");
+                months = myMethod.loopInputInt();
+
+                System.out.printf("Old balance: %.2f\n", account.getBalance());
+                savingsAcc.accruesInterest(months);
+                System.out.printf("New balance: %.2f\n", account.getBalance());
+            }
+        }
+
+        myMethod.waitForInput();
+
     }
 
     public static void main(String[] args) {
