@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * Control BankAccountManagement.BankAccount management system
+ * Driver class to control BankAccount management system
  * Provide menu interface to manage and operate accounts
  * @author Vu Cong Bui
  */
@@ -13,12 +13,10 @@ public class BankAccountDriver {
     public static Scanner input;
     public static BankAccount[] accounts;
     public static CongVuMethods myMethod;
-    //public static FileHandler fileHandler;
-
     public static Customer[] customers;
 
     /**
-     * The main program
+     * The main program that initializes the system and runs menu loop
      */
     public void BankAccountProgram() {
 
@@ -42,7 +40,7 @@ public class BankAccountDriver {
     }
 
     /**
-     * Fill the customers and accounts arrays with data to test the program
+     * Populate the customers and accounts arrays with test data
      */
     public void getData() {
 
@@ -69,7 +67,7 @@ public class BankAccountDriver {
     }
 
     /**
-     * Show the options of the main menu
+     * Display the main menu and prompt the user to select an option
      * @return an integer value that represents user's selection
      */
     public int showMenu() {
@@ -102,7 +100,7 @@ public class BankAccountDriver {
 
     /**
      * Execute the choices based on the user's selection
-     * @param menuChoice - an integer value of user's selection from showMenu()
+     * @param menuChoice - an integer value representing the selected menu option
      */
     public void executeChoices(int menuChoice) {
 
@@ -121,7 +119,7 @@ public class BankAccountDriver {
     }
 
     /**
-     * Print all the existing accounts with the options to select between Chequing Savings and All Accounts
+     * Display all accounts filtered by type (Chequing, Savings or All accounts)
      */
     public void menuOption1() {
 
@@ -184,7 +182,7 @@ public class BankAccountDriver {
     }
 
     /**
-     * Prompt user for an account number and print it
+     * Display detailed information for a specific account by account number
      */
     public void menuOption2() {
 
@@ -239,7 +237,7 @@ public class BankAccountDriver {
     }
 
     /**
-     * Print all the existing customer in the database
+     * Display all the existing customer in the database
      */
     public void menuOption3() {
 
@@ -254,7 +252,7 @@ public class BankAccountDriver {
     }
 
     /**
-     * Print all the accounts belong to a customer
+     * Display all the accounts belong to a customer
      */
     public void menuOption4() {
 
@@ -319,6 +317,7 @@ public class BankAccountDriver {
     }
 
     /**
+     * Allow editing of customer information for a selected account
      * Prompt user for an account number
      * Then show options to edit user basic information
      */
@@ -380,8 +379,9 @@ public class BankAccountDriver {
     }
 
     /**
+     * Process a deposit transaction for a specified account.
      * Prompt user for an account number and an amount
-     * Then deposit the amount into the user's account
+     * then deposit the amount into the user's account
      */
     public void menuOption6() {
 
@@ -419,8 +419,9 @@ public class BankAccountDriver {
     }
 
     /**
+     * Process a withdrawal transaction for an account
      * Prompt user for an account number and an amount
-     * Then withdraw the amount from that account
+     * then withdraw the amount from that account
      * Allow overdrafting if the account is a Chequing account
      */
     public void menuOption7() {
@@ -489,6 +490,7 @@ public class BankAccountDriver {
     }
 
     /**
+     * Process a transfer transaction between two account
      * Prompt user for a sender and a receiver account numbers
      * Then transfer the amount from the user's account to another account
      */
@@ -537,9 +539,10 @@ public class BankAccountDriver {
     }
 
     /**
-     * Prompt user for inputs to create a new instance
-     * Expand the current array and add the new account to the array
-     * Save the new accounts data to the database
+     * Create a new bank account and adds it to the system.
+     * Prompt user for inputs to create a new instance,
+     * expand the current array and add the new account to the array and
+     * save the new accounts data to the database
      */
     public void menuOption9() {
         System.out.println("CREATE A NEW ACCOUNT");
@@ -595,8 +598,9 @@ public class BankAccountDriver {
     }
 
     /**
+     * Calculate and apply interest to a savings account.
      * Prompt user for input an account number
-     * If the account is a Savings account, calculate and apply interest to the balance
+     * if the account is a Savings account, calculate and apply interest to the balance
      */
     public void menuOption10() {
         System.out.println("CALCULATE INTEREST\n-----");

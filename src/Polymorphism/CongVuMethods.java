@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 /**
  * Helper methods to replace repetitive actions
+ * Provide common input handling utilities for user interactions
  * @author Vu Cong Bui
  */
 public class CongVuMethods {
@@ -15,8 +16,8 @@ public class CongVuMethods {
     }
 
     /**
-     * Wait for user input
-     * The purpose is to wait for user to take an action before the next code run (improve visibility)
+     * Wait for the user to press Enter to continue
+     * This method prints a prompt and then wait for the user to press Enter
      */
     public void waitForInput() {
         System.out.print("Press Enter to return to main menu...");
@@ -24,7 +25,7 @@ public class CongVuMethods {
     }
 
     /**
-     * Loop until user inputs an integer
+     * Repeatedly prompts the user until a valid integer is entered
      * @return the first integer value that the user inputs
      */
     public int loopInputInt() {
@@ -46,7 +47,7 @@ public class CongVuMethods {
     }
 
     /**
-     * Loop until user inputs a positive float (for money)
+     * Repeatedly prompts the user until a positive float is entered
      * @return the first positive float value that the user inputs
      */
     public float loopPositiveFloat() {
@@ -75,9 +76,10 @@ public class CongVuMethods {
     }
 
     /**
-     * Prompt user for inputs to change the BankAccountManagement.Date
+     * Prompt user for inputs to edit a date by entering year, month and day
      * Have to be in (Year, Month, Day) order to check for leap years
-     * @return new BankAccountManagement.Date instance
+     * The year must be within 1900 to 2026
+     * @return new Date instance representing the user-provided date
      */
     public Date editDate() {
 
@@ -116,8 +118,8 @@ public class CongVuMethods {
 
     /**
      *
-     * Prompt user to enter and validates a new name with first name, last name and middle init
-     * @return a new BankAccountManagement.Name instance
+     * Prompt user to enter and validates a new name with first name, last name and middle initial
+     * @return a new Customer instance with entered data
      */
     public Customer editCustomer() {
 
@@ -211,10 +213,10 @@ public class CongVuMethods {
     }
 
     /**
-     * Prompt user for input and loop until user returns a correct input within the range (parameters)
+     * Prompt user to select an option within a specified range
      * @param min - the first option
      * @param max - the last option
-     * @return an integer value of the correct input
+     * @return an integer value of the correct input within min - max range
      */
     public int loopOption(int min, int max) {
 

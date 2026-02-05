@@ -20,7 +20,7 @@ public class Date {
     }
 
     /**
-     * Set day of the BankAccountManagement.Date with function to check leap years
+     * Set day of the Date with function to check leap years
      * @param day - the new day to set
      * @return boolean value, false if the day is invalid for the given month or year
      */
@@ -42,7 +42,7 @@ public class Date {
     }
 
     /**
-     * Set the month of the BankAccountManagement.Date
+     * Set the month of the Date
      * @param month - the new month to set
      * @return boolean value, false if month is outside the valid range (12 months)
      */
@@ -55,7 +55,7 @@ public class Date {
     }
 
     /**
-     * Set the year of the BankAccountManagement.Date
+     * Set the year of the Date
      * @param year - the new year to set
      * @return boolean value, false if year is outside the valid range (0 - 99)
      */

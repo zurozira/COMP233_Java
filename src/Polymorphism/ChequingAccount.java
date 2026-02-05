@@ -1,7 +1,7 @@
 package Polymorphism;
 
 /**
- * Represent a chequing account with an overdraft limit
+ * Represent a chequing account with an overdraft limit.
  * Inherit from BankAccount
  * @author Vu Cong Bui
  */

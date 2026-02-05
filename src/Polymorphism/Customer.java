@@ -34,7 +34,7 @@ public class Customer extends Person {
     }
 
     /**
-     * Get the customer full name
+     * Return the customer full name as a String
      * @return customer full name
      */
     public String getFullName() {
