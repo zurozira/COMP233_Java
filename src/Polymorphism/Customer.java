@@ -33,6 +33,10 @@ public class Customer extends Person {
         return String.format("%d %s", customerID, super.toString());
     }
 
+    /**
+     * Get the customer full name
+     * @return customer full name
+     */
     public String getFullName() {
 
         return super.toString();

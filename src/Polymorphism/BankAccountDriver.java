@@ -24,7 +24,6 @@ public class BankAccountDriver {
 
         input = new Scanner(System.in);
         myMethod = new CongVuMethods();
-        //fileHandler = new FileHandler();
         getData();
 
         boolean exit = false;
@@ -43,7 +42,7 @@ public class BankAccountDriver {
     }
 
     /**
-     * Load data from a text file to test the program
+     * Fill the customers and accounts arrays with data to test the program
      */
     public void getData() {
 
@@ -60,7 +59,7 @@ public class BankAccountDriver {
         accounts[0] = new ChequingAccount(1005, customers[2], 76.57f, new Date(2019, 11, 5), 10.50f);
         accounts[1] = new SavingsAccount(1001, customers[0], 6500.50f, new Date(2023, 9, 7), 10f);
         accounts[2] = new SavingsAccount(1003, customers[2], 5533.57f, new Date(2019, 12, 6), 1.0f);
-        accounts[3] = new SavingsAccount(1006, customers[4], 0.60f, new Date(2020, 7, 7), 10.0f);
+        accounts[3] = new SavingsAccount(1006, customers[4], 100f, new Date(2020, 7, 7), 10.0f);
         accounts[4] = new ChequingAccount(1002,customers[1], 2576.57f, new Date(2022, 9, 8), 10.50f);
         accounts[5] = new ChequingAccount(1008, customers[0], 200.10f, new Date(2023, 12, 8), 10.0f);
         accounts[6] = new SavingsAccount(1009, customers[1], 33.21f, new Date(2021, 5, 6), 1.0f);
@@ -108,24 +107,21 @@ public class BankAccountDriver {
     public void executeChoices(int menuChoice) {
 
         switch (menuChoice) {
-            case 1 -> menuOption1();
-            case 2 -> menuOption2();
-
-            case 3 -> menuOption3();
-            case 4 -> menuOption4();
-
-            case 5 -> menuOption5();
-            case 6 -> menuOption6();
-            case 7 -> menuOption7();
-            case 8 -> menuOption8();
-            case 9 -> menuOption9();
-
+            case 1  -> menuOption1();
+            case 2  -> menuOption2();
+            case 3  -> menuOption3();
+            case 4  -> menuOption4();
+            case 5  -> menuOption5();
+            case 6  -> menuOption6();
+            case 7  -> menuOption7();
+            case 8  -> menuOption8();
+            case 9  -> menuOption9();
             case 10 -> menuOption10();
         }
     }
 
     /**
-     * Print all the existing user data
+     * Print all the existing accounts with the options to select between Chequing Savings and All Accounts
      */
     public void menuOption1() {
 
@@ -148,20 +144,6 @@ public class BankAccountDriver {
             switch (accountType) {
 
                 case 1 -> {
-                    System.out.print("Chequing");
-                }
-
-                case 2 -> {
-                    System.out.print("Saving");
-                }
-            }
-
-        }
-
-        switch (accountType) {
-
-            case 1 -> {
-                for (BankAccount account : accounts) {
                     if (account instanceof ChequingAccount) {
                         System.out.printf("Chequing#%d: #%d %s $%.2f\n", account.getAccountNumber(),
                                 account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
@@ -169,10 +151,8 @@ public class BankAccountDriver {
                         sum += account.getBalance();
                     }
                 }
-            }
 
-            case 2 -> {
-                for (BankAccount account : accounts) {
+                case 2 -> {
                     if (account instanceof SavingsAccount) {
                         System.out.printf("Savings#%d : #%d %s $%.2f\n", account.getAccountNumber(),
                                 account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
@@ -180,27 +160,25 @@ public class BankAccountDriver {
                         sum += account.getBalance();
                     }
                 }
-            }
 
-            case 3 -> {
-                for (BankAccount account : accounts) {
+                case 3 -> {
                     if (account instanceof SavingsAccount) {
                         System.out.printf("Savings#%d : #%d %s $%.2f\n", account.getAccountNumber(),
                                 account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
 
-                        sum += account.getBalance();
                     }
                     else {
                         System.out.printf("Chequing#%d: #%d %s $%.2f\n", account.getAccountNumber(),
                                 account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
 
-                        sum += account.getBalance();
                     }
+                    sum += account.getBalance();
                 }
             }
+
         }
 
-        System.out.printf("-----\nSum of all balances: $%.2f\n", sum);
+        System.out.printf("-----\nSum of all balances: $%.2f\n-----\n", sum);
 
         myMethod.waitForInput();
     }
@@ -218,7 +196,37 @@ public class BankAccountDriver {
             accountNumber = myMethod.loopInputInt();
             for (BankAccount account : accounts) {
                 if (account.getAccountNumber() == accountNumber) {
-                    System.out.print(account);
+
+                    if (account instanceof SavingsAccount) {
+                        System.out.printf("""
+                                Account#: %d
+                                Account type: Saving
+                                Name: %s
+                                Customer#: %d
+                                Balance: $%.2f
+                                Interest rate: %.1f
+                                Last transaction: %s
+                                -----
+                                """, accountNumber, account.getCustomer().getFullName(),
+                                account.getCustomer().getCustomerID(), account.getBalance(),
+                                ((SavingsAccount) account).getInterestRate(), account.getLastTransaction());
+                    }
+
+                    else {
+                        System.out.printf("""
+                                Account#: %d
+                                Account type: Chequing
+                                Name: %s
+                                Customer#: %d
+                                Balance: $%.2f
+                                Overdraft limit: $%.2f
+                                Last transaction: %s
+                                -----
+                                """, accountNumber, account.getCustomer().getFullName(),
+                                account.getCustomer().getCustomerID(), account.getBalance(),
+                                ((ChequingAccount) account).getOverDraftLimit(), account.getLastTransaction());
+                    }
+
                     correctID = true;
                 }
             }
@@ -230,6 +238,9 @@ public class BankAccountDriver {
         myMethod.waitForInput();
     }
 
+    /**
+     * Print all the existing customer in the database
+     */
     public void menuOption3() {
 
         System.out.println("ALL CUSTOMERS\n-----");
@@ -242,35 +253,69 @@ public class BankAccountDriver {
         myMethod.waitForInput();
     }
 
+    /**
+     * Print all the accounts belong to a customer
+     */
     public void menuOption4() {
 
         System.out.println("ALL ACCOUNTS OF A CUSTOMER\n-----");
 
         for (Customer customer : customers) {
-            System.out.printf("%s #%d\n", customer.getFullName(), customer.getCustomerID());
+            System.out.printf("#%d: %s\n", customer.getCustomerID(), customer.getFullName());
         }
         System.out.println("-----");
 
-        System.out.print("Enter customer number: ");
-        int customerNumber = myMethod.loopInputInt();
+        boolean correctCustomerID = false;
 
-        for (BankAccount account : accounts) {
+        while (!correctCustomerID) {
+            System.out.print("Enter customer number: ");
+            int customerNumber = myMethod.loopInputInt();
 
-            if (account.getCustomer().getCustomerID() == customerNumber && account instanceof ChequingAccount) {
+            for (BankAccount account : accounts) {
 
-                System.out.printf("Chequing#%d: #%d %s $%.2f\n", account.getAccountNumber(),
-                        account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
+                if (account.getCustomer().getCustomerID() == customerNumber && account instanceof ChequingAccount) {
+
+                    System.out.printf("""
+                                Account#: %d
+                                Account type: Chequing
+                                Name: %s
+                                Customer#: %d
+                                Balance: $%.2f
+                                Overdraft limit: $%.2f
+                                Last transaction: %s
+                                -----
+                                """, account.getAccountNumber(), account.getCustomer().getFullName(),
+                            account.getCustomer().getCustomerID(), account.getBalance(),
+                            ((ChequingAccount) account).getOverDraftLimit(), account.getLastTransaction());
+
+                    correctCustomerID = true;
+                }
+
+                else if (account.getCustomer().getCustomerID() == customerNumber && account instanceof SavingsAccount) {
+
+                    System.out.printf("""
+                                Account#: %d
+                                Account type: Saving
+                                Name: %s
+                                Customer#: %d
+                                Balance: $%.2f
+                                Interest rate: %.1f
+                                Last transaction: %s
+                                -----
+                                """, account.getAccountNumber(), account.getCustomer().getFullName(),
+                            account.getCustomer().getCustomerID(), account.getBalance(),
+                            ((SavingsAccount) account).getInterestRate(), account.getLastTransaction());
+
+                    correctCustomerID = true;
+                }
             }
 
-            else if (account.getCustomer().getCustomerID() == customerNumber && account instanceof SavingsAccount) {
-
-                System.out.printf("Savings#%d : #%d %s $%.2f\n", account.getAccountNumber(),
-                        account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
+            if (!correctCustomerID) {
+                System.out.println("INCORRECT!");
             }
         }
 
         myMethod.waitForInput();
-
     }
 
     /**
@@ -308,33 +353,29 @@ public class BankAccountDriver {
                 case 1 -> {
                     System.out.print("Enter new customer ID: ");
                     customers[accChoice - 1].setCustomerID(input.nextInt());
-                    //fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
 
                 case 2 -> {
                     System.out.print("Enter new first name\n-> ");
                     customers[accChoice - 1].setFirstName(input.nextLine());
-                    //fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
                 case 3 -> {
                     System.out.print("Enter new last name\n-> ");
                     customers[accChoice - 1].setLastName(input.nextLine());
-                    //fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
                 case 4 -> {
                     System.out.print("Enter new middle initial\n-> ");
                     customers[accChoice - 1].setMiddleInit(input.next().charAt(0));
-                    //fileHandler.save(accounts);
                     System.out.println("Success!\n-----");
                 }
                 case 5 -> exitInfoEdit = true;
 
             }
         }
-        //fileHandler.save(accounts);
+
         myMethod.waitForInput();
     }
 
@@ -365,7 +406,7 @@ public class BankAccountDriver {
 
                     account.deposit(depositAmount, newDate);
 
-                    System.out.printf("Successfully deposit $%.1f into account of %s!\n", depositAmount, account.getCustomer());
+                    System.out.printf("Successfully deposit $%.1f into account of %s!\n", depositAmount, account.getCustomer().getFullName());
                 }
             }
 
@@ -373,13 +414,14 @@ public class BankAccountDriver {
                 System.out.print("Incorrect account number!\n-> ");
             }
         }
-        //fileHandler.save(accounts);
+
         myMethod.waitForInput();
     }
 
     /**
      * Prompt user for an account number and an amount
-     * Then withdraw the amount from the user's account
+     * Then withdraw the amount from that account
+     * Allow overdrafting if the account is a Chequing account
      */
     public void menuOption7() {
 
@@ -401,7 +443,7 @@ public class BankAccountDriver {
                     System.out.printf("Current balance: $%.2f\n", account.getBalance());
 
                     if (account instanceof ChequingAccount cheqAcc) {
-                        System.out.printf("Overdraft limit: %.2f\n", cheqAcc.getOverDraftLimit());
+                        System.out.printf("Overdraft limit: $%.2f\n", cheqAcc.getOverDraftLimit());
                     }
 
                     System.out.print("Withdraw amount: ");
@@ -416,7 +458,8 @@ public class BankAccountDriver {
                         System.out.printf("""
                                 Successfully withdraw $%.2f
                                 New balance: $%.2f
-                                """, withdrawAmount, account.getBalance());
+                                Overdraft limit: $%.2f
+                                """, withdrawAmount, account.getBalance(), cheqAcc.getOverDraftLimit());
                     }
 
                     else if (account instanceof SavingsAccount savAcc &&
@@ -441,7 +484,7 @@ public class BankAccountDriver {
                 System.out.print("Incorrect account number!\n-> ");
             }
         }
-        //fileHandler.save(accounts);
+
         myMethod.waitForInput();
     }
 
@@ -489,7 +532,7 @@ public class BankAccountDriver {
                 System.out.print("Incorrect account number!\n-> ");
             }
         }
-        //fileHandler.save(accounts);
+
         myMethod.waitForInput();
     }
 
@@ -531,10 +574,12 @@ public class BankAccountDriver {
         BankAccount newAccount;
 
         if (accountType == 1) {
+            System.out.print("Interest Rate: ");
             float interestRate = myMethod.loopPositiveFloat();
             newAccount = new SavingsAccount(newAccountNumber, newCustomer, newBalance, newDate, interestRate);
         }
         else {
+            System.out.print("Overdraft limit: ");
             float overdraftLimit = myMethod.loopPositiveFloat();
             newAccount = new ChequingAccount(newAccountNumber, newCustomer, newBalance, newDate, overdraftLimit);
         }
@@ -549,25 +594,38 @@ public class BankAccountDriver {
         myMethod.waitForInput();
     }
 
+    /**
+     * Prompt user for input an account number
+     * If the account is a Savings account, calculate and apply interest to the balance
+     */
     public void menuOption10() {
         System.out.println("CALCULATE INTEREST\n-----");
-        System.out.print("Enter a customer number: ");
-        int accNumber = myMethod.loopInputInt();
 
         int months;
-        for (BankAccount account : accounts) {
-            if (accNumber == account.getAccountNumber() && account instanceof SavingsAccount savingsAcc) {
-                System.out.print("Enter number of months: ");
-                months = myMethod.loopInputInt();
+        boolean correctAccNum = false;
+        while (!correctAccNum) {
 
-                System.out.printf("Old balance: %.2f\n", account.getBalance());
-                savingsAcc.accruesInterest(months);
-                System.out.printf("New balance: %.2f\n", account.getBalance());
+            System.out.print("Enter an account number: ");
+            int accNumber = myMethod.loopInputInt();
+
+            for (BankAccount account : accounts) {
+                if (account.getAccountNumber() == accNumber && account instanceof SavingsAccount savingsAcc) {
+                    correctAccNum = true;
+                    System.out.print("Enter number of months: ");
+                    months = myMethod.loopInputInt();
+
+                    System.out.printf("Old balance: $%.2f\n", account.getBalance());
+                    savingsAcc.accruesInterest(months);
+                    System.out.printf("New balance after %d months of interest rate %.2f: $%.2f\n", months,
+                            savingsAcc.getInterestRate(), savingsAcc.getBalance());
+                }
+            }
+            if (!correctAccNum) {
+                System.out.println("INCORRECT ACCOUNT NUMBER/TYPE!");
             }
         }
 
         myMethod.waitForInput();
-
     }
 
     public static void main(String[] args) {

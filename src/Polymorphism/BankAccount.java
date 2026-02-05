@@ -84,28 +84,4 @@ public abstract class BankAccount {
             System.out.println("Transfer failed!");
         }
     }
-
-    /**
-     * @return the full information of the account as a String block
-     */
-    public String toString() {
-        return String.format("""
-                Account #: %d
-                Customer #: %d
-                Name: %s
-                Balance: $%.1f
-                Last transaction: %s
-                -----
-                """, accountNumber, customer.getCustomerID(), customer.getFullName(),
-                balance, lastTransaction.toString());
-    }
-
-    /**
-     * Returns the detail of the bank account in a format to be written to the text file
-     * @return all of the information separated by spaces
-     */
-    public String writeAsRecord() {
-
-        return String.format("%d %s %.2f %s", accountNumber, customer.writeAsRecord(), balance, lastTransaction.toString());
-    }
 }

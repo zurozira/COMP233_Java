@@ -1,5 +1,10 @@
 package Polymorphism;
 
+/**
+ * Represent a chequing account with an overdraft limit
+ * Inherit from BankAccount
+ * @author Vu Cong Bui
+ */
 public class ChequingAccount extends BankAccount {
 
     private float overDraftLimit;
@@ -17,6 +22,11 @@ public class ChequingAccount extends BankAccount {
 
     public void setOverDraftLimit(float overDraftLimit) { this.overDraftLimit = overDraftLimit; }
 
+    /**
+     * Withdraw an amount from the account and allow overdraft if the amount exceed the balance
+     * @param amount - the float amount to be withdrawn
+     * @param lastTransaction - the date of this transaction
+     */
     @Override
     public void withdraw(float amount, Date lastTransaction) {
 
