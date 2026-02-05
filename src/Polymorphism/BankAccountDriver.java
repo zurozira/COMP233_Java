@@ -144,27 +144,27 @@ public class BankAccountDriver {
             switch (accountType) {
 
                 case 1 -> {
-                    if (account instanceof ChequingAccount) {
-                        System.out.printf("Chequing#%d: #%d %s $%.2f\n", account.getAccountNumber(),
-                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
+                    if (account instanceof ChequingAccount cheqAcc) {
+                        System.out.printf("Chequing#%d: #%d %s $%.2f\n", cheqAcc.getAccountNumber(),
+                                cheqAcc.getCustomer().getCustomerID(), cheqAcc.getCustomer().getFullName(), cheqAcc.getBalance());
 
                         sum += account.getBalance();
                     }
                 }
 
                 case 2 -> {
-                    if (account instanceof SavingsAccount) {
-                        System.out.printf("Savings#%d : #%d %s $%.2f\n", account.getAccountNumber(),
-                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
+                    if (account instanceof SavingsAccount savAcc) {
+                        System.out.printf("Savings#%d : #%d %s $%.2f\n", savAcc.getAccountNumber(),
+                                savAcc.getCustomer().getCustomerID(), savAcc.getCustomer().getFullName(), savAcc.getBalance());
 
                         sum += account.getBalance();
                     }
                 }
 
                 case 3 -> {
-                    if (account instanceof SavingsAccount) {
-                        System.out.printf("Savings#%d : #%d %s $%.2f\n", account.getAccountNumber(),
-                                account.getCustomer().getCustomerID(), account.getCustomer().getFullName(), account.getBalance());
+                    if (account instanceof SavingsAccount savAcc) {
+                        System.out.printf("Savings#%d : #%d %s $%.2f\n", savAcc.getAccountNumber(),
+                                savAcc.getCustomer().getCustomerID(), savAcc.getCustomer().getFullName(), savAcc.getBalance());
 
                     }
                     else {
@@ -197,7 +197,7 @@ public class BankAccountDriver {
             for (BankAccount account : accounts) {
                 if (account.getAccountNumber() == accountNumber) {
 
-                    if (account instanceof SavingsAccount) {
+                    if (account instanceof SavingsAccount savAcc) {
                         System.out.printf("""
                                 Account#: %d
                                 Account type: Saving
@@ -207,9 +207,9 @@ public class BankAccountDriver {
                                 Interest rate: %.1f
                                 Last transaction: %s
                                 -----
-                                """, accountNumber, account.getCustomer().getFullName(),
-                                account.getCustomer().getCustomerID(), account.getBalance(),
-                                ((SavingsAccount) account).getInterestRate(), account.getLastTransaction());
+                                """, savAcc.getAccountNumber(), savAcc.getCustomer().getFullName(),
+                                savAcc.getCustomer().getCustomerID(), savAcc.getBalance(),
+                                savAcc.getInterestRate(), savAcc.getLastTransaction());
                     }
 
                     else {
@@ -273,7 +273,7 @@ public class BankAccountDriver {
 
             for (BankAccount account : accounts) {
 
-                if (account.getCustomer().getCustomerID() == customerNumber && account instanceof ChequingAccount) {
+                if (account.getCustomer().getCustomerID() == customerNumber && account instanceof ChequingAccount cheqAcc) {
 
                     System.out.printf("""
                                 Account#: %d
@@ -284,14 +284,14 @@ public class BankAccountDriver {
                                 Overdraft limit: $%.2f
                                 Last transaction: %s
                                 -----
-                                """, account.getAccountNumber(), account.getCustomer().getFullName(),
-                            account.getCustomer().getCustomerID(), account.getBalance(),
-                            ((ChequingAccount) account).getOverDraftLimit(), account.getLastTransaction());
+                                """, cheqAcc.getAccountNumber(), cheqAcc.getCustomer().getFullName(),
+                            cheqAcc.getCustomer().getCustomerID(), cheqAcc.getBalance(),
+                            cheqAcc.getOverDraftLimit(), cheqAcc.getLastTransaction());
 
                     correctCustomerID = true;
                 }
 
-                else if (account.getCustomer().getCustomerID() == customerNumber && account instanceof SavingsAccount) {
+                else if (account.getCustomer().getCustomerID() == customerNumber && account instanceof SavingsAccount savAcc) {
 
                     System.out.printf("""
                                 Account#: %d
@@ -302,9 +302,9 @@ public class BankAccountDriver {
                                 Interest rate: %.1f
                                 Last transaction: %s
                                 -----
-                                """, account.getAccountNumber(), account.getCustomer().getFullName(),
-                            account.getCustomer().getCustomerID(), account.getBalance(),
-                            ((SavingsAccount) account).getInterestRate(), account.getLastTransaction());
+                                """, savAcc.getAccountNumber(), savAcc.getCustomer().getFullName(),
+                            savAcc.getCustomer().getCustomerID(), savAcc.getBalance(),
+                            savAcc.getInterestRate(), savAcc.getLastTransaction());
 
                     correctCustomerID = true;
                 }
@@ -550,8 +550,8 @@ public class BankAccountDriver {
         do {
             duplicate = false;
             newAccountNumber = myMethod.changeAccountNumber();
-            for (int i = 0; i < accounts.length; i++) {
-                if (accounts[i].getAccountNumber() == newAccountNumber) {
+            for (BankAccount account : accounts) {
+                if (account.getAccountNumber() == newAccountNumber) {
                     System.out.println("Duplicated account number!");
                     duplicate = true;
                 }
