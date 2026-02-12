@@ -3,7 +3,7 @@ package AnimalKingdom;
 /**
  * @author
  */
-public class Dog extends Animal{
+public class Dog extends Animal implements Noisy{
 
     /**
      * This constructor provide access to the parent class 's constructor

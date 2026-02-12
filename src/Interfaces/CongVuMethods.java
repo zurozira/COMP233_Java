@@ -1,0 +1,236 @@
+package Interfaces;
+
+import java.util.Scanner;
+
+/**
+ * Helper methods to replace repetitive actions
+ * Provide common input handling utilities for user interactions
+ * @author Vu Cong Bui
+ */
+public class CongVuMethods {
+
+    public static Scanner input;
+
+    public CongVuMethods() {
+        input = new Scanner(System.in);
+    }
+
+    /**
+     * Wait for the user to press Enter to continue
+     * This method prints a prompt and then wait for the user to press Enter
+     */
+    public void waitForInput() {
+        System.out.print("Press Enter to return to main menu...");
+        input.nextLine();
+    }
+
+    /**
+     * Repeatedly prompts the user until a valid integer is entered
+     * @return the first integer value that the user inputs
+     */
+    public int loopInputInt() {
+
+        int number = 0;
+        boolean correctInput = false;
+        while (!correctInput) {
+            if (input.hasNextInt()) {
+                number = input.nextInt();
+                input.nextLine();
+                correctInput = true;
+            }
+            else {
+                System.out.print("Wrong input type! Number only\n-> ");
+                input.next();
+            }
+        }
+        return number;
+    }
+
+    /**
+     * Repeatedly prompts the user until a positive float is entered
+     * @return the first positive float value that the user inputs
+     */
+    public float loopPositiveFloat() {
+
+        float amount = 0;
+        boolean correctInput = false;
+
+        while (!correctInput) {
+            if (input.hasNextFloat()) {
+                amount = input.nextFloat();
+                input.nextLine();
+
+                if (amount > 0) {
+                    correctInput = true;
+                }
+                else {
+                    System.out.print("Wrong input! Positive float only!\n-> ");
+                }
+            }
+            else {
+                System.out.print("Wrong input type! Float only\n-> ");
+                input.next();
+            }
+        }
+        return amount;
+    }
+
+    /**
+     * Prompt user for inputs to edit a date by entering year, month and day
+     * Have to be in (Year, Month, Day) order to check for leap years
+     * The year must be within 1900 to 2026
+     * @return new Date instance representing the user-provided date
+     */
+    public Date editDate() {
+
+        Date date = new Date();
+
+        int newYear;
+        int newMonth;
+        int newDay;
+
+        System.out.print("Year: ");
+        do {
+            newYear = loopInputInt();
+            if (!date.setYear(newYear)) {
+                System.out.print("Wrong range (1900 - 2026)\n-> ");
+            }
+        } while (!date.setYear(newYear));
+
+        System.out.print("Month: ");
+        do {
+            newMonth = loopInputInt();
+            if (!date.setMonth(newMonth)) {
+                System.out.print("Wrong range (1 - 12)\n-> ");
+            }
+        } while (!date.setMonth(newMonth));
+
+        System.out.print("Day: ");
+        do {
+            newDay = loopInputInt();
+            if (!date.setDay(newDay)) {
+                System.out.print("Wrong range (1 - 31) / Check if the year is leap year!\n-> ");
+            }
+        } while (!date.setDay(newDay));
+
+        return date;
+    }
+
+    /**
+     *
+     * Prompt user to enter and validates a new name with first name, last name and middle initial
+     * @return a new Customer instance with entered data
+     */
+    public Customer editCustomer() {
+
+        Customer customer = new Customer();
+
+        int customerID;
+        String firstName;
+        String lastName;
+        char middleInit;
+
+        System.out.print("CustomerID: ");
+        customerID = loopInputInt();
+        customer.setCustomerID(customerID);
+
+        System.out.println("First name:");
+        do {
+            System.out.print("-> ");
+            firstName = input.nextLine();
+            if (firstName.isBlank()) {
+                System.out.print("First name cannot be empty\n");
+            }
+            else {
+                customer.setFirstName(firstName);
+            }
+        } while (firstName.isBlank());
+
+        System.out.println("Last name: ");
+        do {
+            System.out.print("-> ");
+            lastName = input.nextLine();
+            if (lastName.isBlank()) {
+                System.out.print("Last name cannot be empty\n");
+            }
+            else {
+                customer.setLastName(lastName);
+            }
+        } while (lastName.isBlank());
+
+        boolean correctFormat = false;
+        System.out.println("Middle init: ");
+        do {
+            System.out.print("-> ");
+            String str = input.nextLine();
+            if (!str.isBlank()) {
+                middleInit = str.charAt(0);
+                if (str.length() > 1) {
+                    System.out.println("Middle init must contains only 1 character");
+                }
+                else if (!Character.isLetter(middleInit)) {
+                    System.out.print("Middle init must be a letter\n");
+                }
+                else {
+                    customer.setMiddleInit(middleInit);
+                    correctFormat = true;
+                }
+            }
+            else {
+                System.out.println("Middle init cannot be empty\n");
+            }
+
+        } while (!correctFormat);
+
+        return customer;
+    }
+
+    /**
+     * Prompt user to enter and loop until a valid 4-digit account number between 1001 and 9999 is provided
+     * @return a valid account number in the range
+     */
+    public int changeAccountNumber() {
+        int accountNumber;
+
+        do {
+            System.out.print("Account number: ");
+            accountNumber = loopInputInt();
+            if (accountNumber < 1001 || accountNumber > 9999) {
+                System.out.print("Account number must has 4 digits\n");
+            }
+        } while (accountNumber < 1001 || accountNumber > 9999);
+
+        return accountNumber;
+    }
+
+    /**
+     * Prompts the user to enter a new positive balance for the account using loopPositiveFloat()
+     * @return a positive float value
+     */
+    public float editBalance() {
+        System.out.print("Balance: ");
+        return loopPositiveFloat();
+    }
+
+    /**
+     * Prompt user to select an option within a specified range
+     * @param min - the first option
+     * @param max - the last option
+     * @return an integer value of the correct input within min - max range
+     */
+    public int loopOption(int min, int max) {
+
+        System.out.print("-> ");
+
+        int choice;
+
+        do {
+            choice = loopInputInt();
+            if (choice < min || choice > max) {
+                System.out.print("Incorrect selection!\n-> ");
+            }
+        } while (choice < min || choice > max);
+
+        return choice;
+    }
+}

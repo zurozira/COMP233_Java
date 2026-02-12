@@ -10,15 +10,23 @@ public class Main {
         animals[2] = new Dog("Wolf");
         animals[3] = new Cat("Lion");
 
-        for (Animal animal : animals) {
+        // You cannot make an instance of an interface
+        // You can make a variable of an interface
+        Noisy[] noisyAnimals = new Noisy[4];
+        noisyAnimals[0] = new Dog("Husky");
+        noisyAnimals[1] = new Cat("Tiger");
+        noisyAnimals[2] = new Dog("Wolf");
+        noisyAnimals[3] = new Cat("Lion");
 
-            animal.makeNoise();
+        for (Noisy noisyAnimal : noisyAnimals) {
 
-            if (animal instanceof Cat c1) {
+            noisyAnimal.makeNoise();
+
+            if (noisyAnimal instanceof Cat c1) {
                 c1.purr();
             }
 
-            if (animal instanceof Dog d1) {
+            if (noisyAnimal instanceof Dog d1) {
                 d1.fetch();
             }
         }

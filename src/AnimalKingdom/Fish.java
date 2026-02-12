@@ -3,7 +3,7 @@ package AnimalKingdom;
 /**
  * @author
  */
-public class Fish extends Animal{
+public class Fish extends Animal implements Noisy{
 
     public Fish() {}
 
