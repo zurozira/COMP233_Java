@@ -4,6 +4,9 @@ out/
 !**/src/test/**/out/
 .kotlin
 
+BATestData.txt
+BATestData_Copy.txt
+
 ### Eclipse ###
 .apt_generated
 .classpath
