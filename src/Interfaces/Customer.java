@@ -42,6 +42,7 @@ public class Customer extends Person implements Comparable {
         return super.toString();
     }
 
+
     /**
      * Compares the value of this Customer with another object for ordering.
      * Comparison with other customers will be done based on customerId
