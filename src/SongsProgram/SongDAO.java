@@ -9,8 +9,10 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- *
- * @author zuro
+ * Data access object for the Songs database.
+ * Provide methods to get, update, delete song records
+ * using JDBC connection to Microsoft SQL Server database
+ * @author Vu Cong Bui
  */
 public class SongDAO {
 
@@ -26,13 +28,11 @@ public class SongDAO {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            // Create a connection string
             String connectionUrl = "jdbc:sqlserver://ZEPHYR14US\\MSSQLSERVER04;" +
                     "DatabaseName=Songs;" +
                     "User=javaApps;" +
                     "Password=Java233";
 
-            // Establish connection
             conn = DriverManager.getConnection(connectionUrl);
         }
         catch (Exception e)
@@ -47,30 +47,21 @@ public class SongDAO {
      * Connects to the database and get all songs
      * @return ArrayList - returns an arrayList of all songs in the database
      */
-    public ArrayList getSongs() {
-
-        // Create an array list to store songs
+    public ArrayList getSongs()
+    {
         ArrayList songs = new ArrayList();
-
-        // Establish a connection with the database
         Connection conn = getConnection();
         ResultSet rs = null;
 
-
         try {
-
-            // Create an sql query to get songs
             Statement stmt = conn.createStatement();
 
             String query = "SELECT id, title, artist, releaseYear, genreId, album FROM Songs";
 
-            // Send the sql query
             rs = stmt.executeQuery(query);
 
-            // Parse the result
             while (rs.next())
             {
-                // Create a new song using data from the result set
                 Song s = new Song(rs.getInt(1),
                                   rs.getString(2),
                                   rs.getString(3),
@@ -78,32 +69,62 @@ public class SongDAO {
                                   rs.getInt(5),
                                   rs.getString(6)
                 );
-
-                // Add that song to the ArrayList
                 songs.add(s);
             }
 
-            // Close the connection
             conn.close();
 
         }
         catch (SQLException sqle) {
-
             System.out.println("A problem occured with the SQL syntax when trying to get" +
                     "all songs from the database");
 
             sqle.printStackTrace();
         }
         catch (Exception e) {
-
             System.out.println("A problem occured with the SQL syntax when trying to get" +
                     "all songs from the database");
 
             e.printStackTrace();
         }
 
-        // Return songs
         return songs;
+    }
+
+    /**
+     * Get one song from database by ID number
+     * @param id - the unique identifier of the song to get
+     * @return the Song object matching the ID or empty song object if there is no match
+     */
+    public Song getSongById(int id)
+    {
+        Connection conn = getConnection();
+        ResultSet rs = null;
+        Song song = new Song();
+
+        try {
+            Statement stmt = conn.createStatement();
+            String query = String.format("SELECT ID, Title, Artist, ReleaseYear, GenreId, Album from Songs WHERE ID=%d", id);
+
+            rs = stmt.executeQuery(query);
+
+            if (rs.next()) {
+                song = new Song(rs.getInt("ID"),
+                        rs.getString("Title"),
+                        rs.getString("Artist"),
+                        rs.getInt("ReleaseYear"),
+                        rs.getInt("genreID"),
+                        rs.getString("Album")
+                );
+            }
+
+            conn.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return song;
     }
 
     /**
@@ -111,51 +132,42 @@ public class SongDAO {
      * update all information with the info in the Song object
      * @param s - Information used to update database
      */
-    public void updateSongById(Song s) {
-
-        // Establish a connection
+    public void updateSongById(Song s)
+    {
         Connection conn = getConnection();
 
         try {
-            // Create an SQL query
             Statement stmt = conn.createStatement();
 
-            // Make sure strings have quote '%s'
             String query = String.format("UPDATE Songs SET title='%s', artist='%s', releaseYear=%d, genreId=%d, album='%s' WHERE id=%d",
                     s.getTitle(), s.getArtist(), s.getReleaseYear(), s.getGenreId(), s.getAlbum(), s.getId());
 
-            // Send the query
             stmt.executeUpdate(query);
-
-            // Close connection to database
             conn.close();
         }
         catch (Exception ex) {
 
             ex.printStackTrace();
         }
-
-
     }
 
-    public static void main(String[] args) {
+    /**
+     * Delete a song from the database by ID number
+     * @param id the unique identifier of the song to delete
+     */
+    public void deleteSongById(int id)
+    {
+        Connection conn = getConnection();
 
-        SongDAO songdao = new SongDAO();
-
-        Connection tempConnection = songdao.getConnection();
-
-        ArrayList songs = songdao.getSongs();
-
-        for (int i = 0; i < songs.size(); i++) {
-            // Cast item into song
-            Song song = (Song) songs.get(i);
-
-            System.out.println("Title: " + song.getTitle() + " Artist: " + song.getArtist());
-
-            if (song.getId() == 4) {
-                song.setArtist("Slim Shady");
-                songdao.updateSongById(song);
-            }
+        try {
+            Statement stmt = conn.createStatement();
+            String query = String.format("DELETE FROM Songs WHERE ID=%d", id);
+            stmt.executeUpdate(query);
+            conn.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 }

@@ -12,6 +12,7 @@ public class CongVuMethods {
     public static Scanner input;
 
     public CongVuMethods() {
+
         input = new Scanner(System.in);
     }
 
