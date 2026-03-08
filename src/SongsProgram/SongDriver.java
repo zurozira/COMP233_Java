@@ -92,7 +92,7 @@ public class SongDriver {
 
         for (int i = 0; i < songs.size(); i++)
         {
-            System.out.println("• " + songs.get(i));
+            System.out.println("* " + songs.get(i));
         }
 
         System.out.println("------");
@@ -127,7 +127,7 @@ public class SongDriver {
             }
             else {
                 validId = true;
-                System.out.println("• " + song);
+                System.out.println("* " + song);
             }
         }
         helperMethod.waitForInput();
@@ -164,7 +164,7 @@ public class SongDriver {
             }
             else {
                 validId = true;
-                System.out.println("• " + song);
+                System.out.println("* " + song);
             }
         }
 
@@ -220,7 +220,7 @@ public class SongDriver {
             }
             else {
                 validId = true;
-                System.out.println("• " + song);
+                System.out.println("* " + song);
             }
         }
 
@@ -231,7 +231,7 @@ public class SongDriver {
         if (choice == 1) {
             String title = song.getTitle();
             songDAO.deleteSongById(song.getId());
-            System.out.printf("Song %s was removed from the database.", title);
+            System.out.printf("Song %s was removed from the database\n", title);
         }
 
         helperMethod.waitForInput();
