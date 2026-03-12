@@ -11,6 +11,7 @@ import java.util.concurrent.*;
  * Masterchef order first,
  * not Masterchef and not Slacker order second,
  * Slacker order last.
+ * @author Vu Cong Bui
  */
 public class NcDonalds {
 
