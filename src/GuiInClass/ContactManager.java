@@ -21,13 +21,12 @@ public class ContactManager extends JFrame {
 
     private JButton btnSave;
     private JButton btnDeleteAll;
-    private JButton[] btnEdit;
     private JButton btnDelete;
     private JButton btnGenerateData;
 
     private JPanel controlContainer;
+    private JPanel buttonsContainer;
 
-    // Element need for data table
     private JTable tbTable;
     private JScrollPane spScroll;
     private DefaultTableModel model;
@@ -101,7 +100,7 @@ public class ContactManager extends JFrame {
         spScroll.setPreferredSize(new Dimension(0,200));
 
         /* Bottom panel for buttons and footer */
-        JPanel buttonsContainer = new JPanel();
+        buttonsContainer = new JPanel();
         BoxLayout bContainerBox = new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS);
         buttonsContainer.setLayout(bContainerBox);
 
