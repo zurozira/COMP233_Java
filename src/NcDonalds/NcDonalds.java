@@ -29,10 +29,9 @@ public class NcDonalds {
 
         Order[] order = new Order[amount];
 
-        char c = 'A';
         for (int i = 0; i < order.length; i++)
         {
-            order[i] = new Order(String.format("(%c)", c + i));
+            order[i] = new Order(String.format("(%d)", i));
         }
 
         ExecutorService executorService = Executors.newFixedThreadPool(order.length);
